@@ -1,0 +1,12 @@
+*.pyc
+.env
+venv/
+*.sqlite3
+.DS_Store
+.idea/
+*.log
+db_init.py
+db_prefill.py
+python_email.py
+requirements.txt
+tests/
