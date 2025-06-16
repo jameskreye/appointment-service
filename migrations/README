@@ -1,1 +1,5 @@
 Single-database configuration for Flask.
+
+flask db init        # First time only
+flask db migrate -m "Added category model"
+flask db upgrade     # Apply changes

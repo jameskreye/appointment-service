@@ -5,7 +5,7 @@ from app.routes.availability import availability_bp
 from app.routes.services import services_bp
 from config import Config
 
-from .extensions import db, migrate
+from .extensions import db, migrate, ma
 
 
 def create_app():
@@ -17,6 +17,7 @@ def create_app():
 
     # Initialize extensions
     db.init_app(app)
+    ma.init_app(app)
     migrate.init_app(app, db)
 
     # Import and register blueprints inside the function to avoid circular imports

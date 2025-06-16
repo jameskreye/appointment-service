@@ -1,6 +1,6 @@
-from flask import Blueprint, jsonify
-
+from flask import Blueprint, jsonify, request
 from ..models import Service, Category
+from ..schemas import services_schema
 
 services_bp = Blueprint('services', __name__)
 
@@ -18,9 +18,24 @@ def get_services():
         result.append({
             "category_name": category.name,
             "category_id": category.id,
-            "services": [
-                {"id": s.id, "name": s.name, "description": s.description} for s in services
-            ]
+            "services": services_schema.dump(services)
         })
 
     return jsonify(result), 200
+
+@services_bp.route('/category', methods=['GET'])
+def get_service_by_category():
+
+    category_id = request.args.get('category')
+    category = Category.query.filter_by(id=category_id).first()
+
+    result = Service.query.filter_by(category_id=category_id).all()
+    services = services_schema.dump(result)
+    if not services:
+        return jsonify({"error": "No matching service found"}), 400
+
+    return jsonify({
+        'category_name': category.name,
+        'category_id': category.id,
+        "services": services
+    })
